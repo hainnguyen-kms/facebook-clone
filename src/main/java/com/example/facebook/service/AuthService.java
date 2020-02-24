@@ -5,8 +5,6 @@ import com.example.facebook.exception.UserExistException;
 import com.example.facebook.model.User;
 import com.example.facebook.repository.UserRepository;
 import com.example.facebook.security.jwt.JwtTokenProvider;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,7 +32,17 @@ public class AuthService {
     @Autowired
     UserRepository users;
 
-    public ResponseEntity signin(AuthenticationRequest data) {
+    public AuthService() {
+    }
+
+    public AuthService(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider, UserRepository users) {
+        this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.users = users;
+    }
+
+    public Map signin(AuthenticationRequest data) {
         try {
             String username = data.getUsername();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, data.getPassword()));
@@ -43,13 +51,13 @@ public class AuthService {
             Map<Object, Object> model = new HashMap<>();
             model.put("username", username);
             model.put("token", token);
-            return ok(model);
+            return model;
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("Invalid username/password supplied");
         }
     }
 
-    public ResponseEntity signup(AuthenticationRequest data) {
+    public Map signup(AuthenticationRequest data) {
         Optional<User> user = this.users.findByName(data.getUsername());
         if (user.isPresent()) {
             throw new UserExistException("User existed");
@@ -64,6 +72,6 @@ public class AuthService {
 
         Map<Object, Object> model = new HashMap<>();
         model.put("token", token);
-        return ok(model);
+        return model;
     }
 }

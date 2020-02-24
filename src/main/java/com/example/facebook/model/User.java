@@ -26,7 +26,6 @@ public class User implements UserDetails {
 
     @OneToMany
     @JoinColumn(name="user_id", referencedColumnName = "id")
-    @JsonIgnore
     Set<Post> posts;
 
     @OneToMany
@@ -43,32 +42,39 @@ public class User implements UserDetails {
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
+
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
 
     @Override
+    @JsonIgnore
     public String getUsername() {
         return this.name;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return true;
     }
@@ -113,6 +119,7 @@ public class User implements UserDetails {
         this.email = email;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -121,6 +128,7 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    @JsonIgnore
     public Set<UserFriend> getFriends() {
         return friends;
     }
@@ -129,6 +137,7 @@ public class User implements UserDetails {
         this.friends = friends;
     }
 
+    @JsonIgnore
     public Set<Post> getPosts() {
         return posts;
     }
@@ -137,6 +146,7 @@ public class User implements UserDetails {
         this.posts = posts;
     }
 
+    @JsonIgnore
     public Set<Image> getPhotos() {
         return photos;
     }
@@ -145,6 +155,7 @@ public class User implements UserDetails {
         this.photos = photos;
     }
 
+    @JsonIgnore
     public Set<FacebookLike> getLikes() {
         return likes;
     }
@@ -153,6 +164,7 @@ public class User implements UserDetails {
         this.likes = likes;
     }
 
+    @JsonIgnore
     public Set<Comment> getComments() {
         return comments;
     }
@@ -161,6 +173,7 @@ public class User implements UserDetails {
         this.comments = comments;
     }
 
+    @JsonIgnore
     public List<String> getRoles() {
         return roles;
     }

@@ -1,6 +1,9 @@
 package com.example.facebook.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
@@ -11,6 +14,7 @@ public class Image {
     @Column(name = "id", columnDefinition = "BINARY(16)")
     private UUID id;
     private String url;
+    private Date time;
 
     @OneToMany()
     @JoinColumn(name="image_id", referencedColumnName = "id")
@@ -19,6 +23,11 @@ public class Image {
     @OneToMany
     @JoinColumn(name="image_id",referencedColumnName = "id")
     Set<Comment> comments;
+
+    @ManyToOne
+    @JoinColumn(name="user_id", referencedColumnName = "id")
+    @JsonIgnore
+    User user;
 
     public Image() {
     }
@@ -60,5 +69,26 @@ public class Image {
 
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @PostPersist
+    public void initImage() {
+        time = new Date();
     }
 }

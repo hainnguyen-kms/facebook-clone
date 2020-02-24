@@ -1,0 +1,29 @@
+## MySQL
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/facebook?useSSL=FALSE&allowPublicKeyRetrieval=TRUE
+    username: root
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        format_sql: true
+  http:
+    multipart:
+      enabled: true
+      location: /upload
+
+amazonProperties:
+  endpointUrl: localhost
+  accessKey: admin
+  secretKey: admin
+  bucketName: facebook-haingod
+
+security:
+  jwt:
+    token:
+      secret-key: secret-key

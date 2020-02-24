@@ -1,8 +1,10 @@
 package com.example.facebook.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -16,16 +18,25 @@ public class Comment {
 
     @OneToMany()
     @JoinColumn(name="comment_id", referencedColumnName = "id")
-    Set<FacebookLike> likes;
+    List<FacebookLike> likes;
 
-    @OneToMany
-    @JoinColumn(referencedColumnName = "id")
-    Set<Comment> replies;
+    @OneToMany(cascade = {CascadeType.ALL})
+    @JoinColumn(name="parent_id", referencedColumnName = "id")
+    List<Comment> replies;
+
+    @OneToOne
+    @JoinColumn(name="post_id", referencedColumnName = "id")
+    @JsonIgnore
+    private Post post;
+
+    @OneToOne
+    @JoinColumn(name="user_id", referencedColumnName = "id")
+    private User user;
 
     public Comment() {
     }
 
-    public Comment(UUID id, Date time, String text, Set<FacebookLike> likes, Set<Comment> replies) {
+    public Comment(UUID id, Date time, String text, List<FacebookLike> likes, List<Comment> replies) {
         this.id = id;
         this.time = time;
         this.text = text;
@@ -57,19 +68,36 @@ public class Comment {
         this.text = text;
     }
 
-    public Set<FacebookLike> getLikes() {
+    public List<FacebookLike> getLikes() {
         return likes;
     }
 
-    public void setLikes(Set<FacebookLike> likes) {
+    public void setLikes(List<FacebookLike> likes) {
         this.likes = likes;
     }
 
-    public Set<Comment> getReplies() {
+    public List<Comment> getReplies() {
         return replies;
     }
 
-    public void setReplies(Set<Comment> replies) {
+    public void setReplies(List<Comment> replies) {
         this.replies = replies;
     }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 }

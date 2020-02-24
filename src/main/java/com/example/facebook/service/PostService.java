@@ -33,7 +33,7 @@ public class PostService {
         newPost.setUser(sessionUser);
         newPost.setText(createPostRequest.getText());
         newPost.setTime(createPostRequest.getTime());
-        newPost.setTag(tags);
+        newPost.setTags(tags);
         newPost.setComments(new ArrayList<>());
         newPost.setLikes(new ArrayList<>());
         newPost.setImages(new ArrayList<>());
@@ -44,18 +44,16 @@ public class PostService {
     public Object update(UUID id, @Valid UpdatePostRequest updatePostRequest) {
         Optional<Post> oldPost = postRepository.findById(id);
         if(oldPost.isPresent()) {
-            List<User> tags = new ArrayList();
-            List<Image> photos = new ArrayList();
+            Post post = oldPost.get();
             if(updatePostRequest.getTags() != null) {
-                tags = userRepository.findByIdIn(updatePostRequest.getTags());
+                post.setTags(userRepository.findByIdIn(updatePostRequest.getTags()));
             }
             if(updatePostRequest.getPhotos() != null) {
-                photos = imageRepository.findByIdIn(updatePostRequest.getPhotos());
+                post.setImages(imageRepository.findByIdIn(updatePostRequest.getPhotos()));
             }
-            Post post = oldPost.get();
-            post.setImages(photos);
-            post.setText(updatePostRequest.getText());
-            post.setTag(tags);
+            if(updatePostRequest.getText() != null) {
+                post.setText(updatePostRequest.getText());
+            }
 
             return CreatePostResponse.of(postRepository.save(post));
         }
@@ -65,5 +63,9 @@ public class PostService {
     public void delete(UUID id) {
         Optional<Post> post = postRepository.findById(id);
         post.ifPresent(value -> postRepository.delete(value));
+    }
+
+    public Optional<Post> getById(UUID id) {
+        return postRepository.findById(id);
     }
 }

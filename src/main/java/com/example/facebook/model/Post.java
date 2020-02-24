@@ -14,7 +14,6 @@ public class Post {
     @Column(name = "id", columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @NotNull
     private String text;
     private Date time;
 
@@ -36,7 +35,7 @@ public class Post {
     User user;
 
     @ManyToMany
-    List<User> tag;
+    List<User> tags;
 
     @PrePersist
     void initDate() {
@@ -46,7 +45,7 @@ public class Post {
     public Post() {
     }
 
-    public Post(UUID id, @NotNull String text, Date time, List<FacebookLike> likes, List<Comment> comments, List<Image> images, User user, List<User> tag) {
+    public Post(UUID id, @NotNull String text, Date time, List<FacebookLike> likes, List<Comment> comments, List<Image> images, User user, List<User> tags) {
         this.id = id;
         this.text = text;
         this.time = time;
@@ -54,7 +53,7 @@ public class Post {
         this.comments = comments;
         this.images = images;
         this.user = user;
-        this.tag = tag;
+        this.tags = tags;
     }
 
     public UUID getId() {
@@ -113,11 +112,11 @@ public class Post {
         this.user = user;
     }
 
-    public List<User> getTag() {
-        return tag;
+    public List<User> getTags() {
+        return tags;
     }
 
-    public void setTag(List<User> tag) {
-        this.tag = tag;
+    public void setTags(List<User> tag) {
+        this.tags = tag;
     }
 }

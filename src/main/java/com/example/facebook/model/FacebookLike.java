@@ -1,6 +1,8 @@
 package com.example.facebook.model;
 
 import com.example.facebook.util.LikeStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
@@ -14,6 +16,15 @@ public class FacebookLike {
 
     private LikeStatus type;
     private Date time;
+
+    @OneToOne
+    @JoinColumn(name="user_id", referencedColumnName = "id")
+    private User user;
+
+    @OneToOne
+    @JoinColumn(name="post_id", referencedColumnName = "id")
+    @JsonIgnore
+    private Post post;
 
     public FacebookLike() {
     }
@@ -46,5 +57,26 @@ public class FacebookLike {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
+    @PostPersist
+    void initLike() {
+        time = new Date();
     }
 }

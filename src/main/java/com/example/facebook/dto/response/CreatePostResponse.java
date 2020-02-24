@@ -90,10 +90,17 @@ public class CreatePostResponse {
         result.setId(newPost.getId());
         result.setText(newPost.getText());
         result.setTime(newPost.getTime());
-        result.setLikes(newPost.getLikes().stream().map(FacebookLike::getId).collect(Collectors.toList()));
-        result.setComments(newPost.getComments().stream().map(Comment::getId).collect(Collectors.toList()));
-        result.setImages(newPost.getImages().stream().map(Image::getId).collect(Collectors.toList()));
-        result.setTags(newPost.getTag().stream().map(User::getId).collect(Collectors.toList()));
+        if(newPost.getLikes() != null) {
+            result.setLikes(newPost.getLikes().stream().map(FacebookLike::getId).collect(Collectors.toList()));
+        }
+        if(newPost.getComments() != null) {
+            result.setComments(newPost.getComments().stream().map(Comment::getId).collect(Collectors.toList()));
+        }
+        if(newPost.getImages() != null) {
+            result.setImages(newPost.getImages().stream().map(Image::getId).collect(Collectors.toList()));
+        }
+        if(newPost.getTags() != null)
+        result.setTags(newPost.getTags().stream().map(User::getId).collect(Collectors.toList()));
         return result;
     }
 }

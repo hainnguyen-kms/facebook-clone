@@ -4,13 +4,13 @@ import java.util.List;
 
 public class SuccessRequestResponse {
     private List<Object> errors;
-    private Boolean status;
+    private Integer status;
     private Object data;
 
     public SuccessRequestResponse() {
     }
 
-    public SuccessRequestResponse(List<Object> errors, Boolean status, Object data) {
+    public SuccessRequestResponse(List<Object> errors, Integer status, Object data) {
         this.errors = errors;
         this.status = status;
         this.data = data;
@@ -24,11 +24,11 @@ public class SuccessRequestResponse {
         this.errors = errors;
     }
 
-    public Boolean getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
