@@ -30,6 +30,11 @@ public class Comment {
     private Post post;
 
     @OneToOne
+    @JoinColumn(name="image_id", referencedColumnName = "id")
+    @JsonIgnore
+    private Image image;
+
+    @OneToOne
     @JoinColumn(name="user_id", referencedColumnName = "id")
     private User user;
 
@@ -100,4 +105,11 @@ public class Comment {
         this.user = user;
     }
 
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
 }

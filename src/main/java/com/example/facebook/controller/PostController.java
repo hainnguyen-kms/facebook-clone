@@ -36,17 +36,24 @@ public class PostController {
         );
     }
 
-    @PostMapping("/like")
-    ResponseEntity likePostById(@RequestBody @Valid LikeRequest likeRequest, @AuthenticationPrincipal User sessionUser) {
+    @GetMapping("/user/{userId}")
+    ResponseEntity getByUserId(@PathVariable UUID userId) {
         return ResponseEntity.ok(
-            new SuccessRequestResponse(null, HttpServletResponse.SC_OK, facebookLikeService.likePost(likeRequest, sessionUser))
+                new SuccessRequestResponse(null, HttpServletResponse.SC_OK, postService.getByUserId(userId))
+        );
+    }
+
+    @PostMapping("/like")
+    ResponseEntity likeImageById(@RequestBody @Valid LikeRequest likeRequest, @AuthenticationPrincipal User sessionUser) {
+        return ResponseEntity.ok(
+                new SuccessRequestResponse(null, HttpServletResponse.SC_OK, facebookLikeService.likePost(likeRequest, sessionUser))
         );
     }
 
     @PostMapping("/comment")
     ResponseEntity commentPostById(@RequestBody @Valid CommentRequest commentRequest, @AuthenticationPrincipal User sessionUser) {
         return ResponseEntity.ok(
-                new SuccessRequestResponse(null, HttpServletResponse.SC_OK, commentService.commentPost(commentRequest, sessionUser))
+            new SuccessRequestResponse(null, HttpServletResponse.SC_OK, commentService.commentPost(commentRequest, sessionUser))
         );
     }
 

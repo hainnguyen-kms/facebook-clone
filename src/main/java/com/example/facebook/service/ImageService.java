@@ -10,6 +10,8 @@ import com.example.facebook.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,5 +37,9 @@ public class ImageService {
         newPost.setImages(savedImages);
 
         return CreatePostResponse.of(postRepository.save(newPost));
+    }
+
+    public Optional<Image> getById(UUID id) {
+        return imageRepository.findById(id);
     }
 }

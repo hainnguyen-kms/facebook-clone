@@ -22,23 +22,23 @@ public class User implements UserDetails {
 
     @OneToMany
     @JoinColumn(name="user_id", referencedColumnName = "id")
-    Set<UserFriend> friends;
+    List<UserFriend> friends;
 
     @OneToMany
     @JoinColumn(name="user_id", referencedColumnName = "id")
-    Set<Post> posts;
+    List<Post> posts;
 
     @OneToMany
     @JoinColumn(name="user_id", referencedColumnName = "id")
-    Set<Image> photos;
+    List<Image> photos;
 
     @OneToMany
     @JoinColumn(name="user_id", referencedColumnName = "id")
-    Set<FacebookLike> likes;
+    List<FacebookLike> likes;
 
     @OneToMany
     @JoinColumn(name="user_id", referencedColumnName = "id")
-    Set<Comment> comments;
+    List<Comment> comments;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
@@ -82,7 +82,7 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(UUID id, String name, String email, String password, Set<UserFriend> friends, Set<Post> posts, Set<Image> photos, Set<FacebookLike> likes, Set<Comment> comments, List<String> roles) {
+    public User(UUID id, String name, String email, String password, List<UserFriend> friends, List<Post> posts, List<Image> photos, List<FacebookLike> likes, List<Comment> comments, List<String> roles) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -129,47 +129,47 @@ public class User implements UserDetails {
     }
 
     @JsonIgnore
-    public Set<UserFriend> getFriends() {
+    public List<UserFriend> getFriends() {
         return friends;
     }
 
-    public void setFriends(Set<UserFriend> friends) {
+    public void setFriends(List<UserFriend> friends) {
         this.friends = friends;
     }
 
     @JsonIgnore
-    public Set<Post> getPosts() {
+    public List<Post> getPosts() {
         return posts;
     }
 
-    public void setPosts(Set<Post> posts) {
+    public void setPosts(List<Post> posts) {
         this.posts = posts;
     }
 
     @JsonIgnore
-    public Set<Image> getPhotos() {
+    public List<Image> getPhotos() {
         return photos;
     }
 
-    public void setPhotos(Set<Image> photos) {
+    public void setPhotos(List<Image> photos) {
         this.photos = photos;
     }
 
     @JsonIgnore
-    public Set<FacebookLike> getLikes() {
+    public List<FacebookLike> getLikes() {
         return likes;
     }
 
-    public void setLikes(Set<FacebookLike> likes) {
+    public void setLikes(List<FacebookLike> likes) {
         this.likes = likes;
     }
 
     @JsonIgnore
-    public Set<Comment> getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(Set<Comment> comments) {
+    public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 

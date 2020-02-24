@@ -68,4 +68,9 @@ public class PostService {
     public Optional<Post> getById(UUID id) {
         return postRepository.findById(id);
     }
+
+    public List<Post> getByUserId(UUID userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        return userOptional.map(User::getPosts).orElse(null);
+    }
 }

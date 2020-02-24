@@ -26,6 +26,16 @@ public class FacebookLike {
     @JsonIgnore
     private Post post;
 
+    @OneToOne
+    @JoinColumn(name="image_id", referencedColumnName = "id")
+    @JsonIgnore
+    private Image image;
+
+    @OneToOne
+    @JoinColumn(name="comment_id", referencedColumnName = "id")
+    @JsonIgnore
+    private Comment comment;
+
     public FacebookLike() {
     }
 
@@ -73,6 +83,22 @@ public class FacebookLike {
 
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    public Comment getComment() {
+        return comment;
+    }
+
+    public void setComment(Comment comment) {
+        this.comment = comment;
     }
 
     @PostPersist

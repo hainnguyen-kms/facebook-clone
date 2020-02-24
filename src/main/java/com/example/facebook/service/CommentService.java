@@ -3,12 +3,10 @@ package com.example.facebook.service;
 import com.example.facebook.dto.request.CommentRequest;
 import com.example.facebook.dto.request.CreatePostRequest;
 import com.example.facebook.dto.request.LikeRequest;
-import com.example.facebook.model.Comment;
-import com.example.facebook.model.FacebookLike;
-import com.example.facebook.model.Post;
-import com.example.facebook.model.User;
+import com.example.facebook.model.*;
 import com.example.facebook.repository.CommentRepository;
 import com.example.facebook.repository.FacebookLikeRepository;
+import com.example.facebook.repository.ImageRepository;
 import com.example.facebook.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +21,8 @@ public class CommentService {
     CommentRepository commentRepository;
     @Autowired
     PostRepository postRepository;
+    @Autowired
+    ImageRepository imageRepository;
 
     public Comment commentPost(CommentRequest commentRequest, User sessionUser) {
         Optional<Post> post = postRepository.findById(commentRequest.getId());
@@ -49,6 +49,18 @@ public class CommentService {
             replies.add(replyComment);
             comment.setReplies(replies);
 
+            return commentRepository.save(comment);
+        }
+        return null;
+    }
+
+    public Comment commentImage(CommentRequest commentRequest, User sessionUser) {
+        Optional<Image> imageOptional = imageRepository.findById(commentRequest.getId());
+        if(imageOptional.isPresent()) {
+            Comment comment = new Comment();
+            comment.setImage(imageOptional.get());
+            comment.setText(commentRequest.getText());
+            comment.setUser(sessionUser);
             return commentRepository.save(comment);
         }
         return null;
